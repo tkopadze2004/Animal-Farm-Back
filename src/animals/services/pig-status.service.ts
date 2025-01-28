@@ -1,51 +1,42 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { PigStatus } from '../schemas/pig-status';
+import { Pig } from '../schemas/pig-status';
 
 @Injectable()
 export class PigService {
-  constructor(
-    @InjectModel('Pig') private readonly pigModel: Model<PigStatus>,
-  ) {}
+  constructor(@InjectModel('Pig') private readonly pigModel: Model<Pig>) {}
 
-  async getPigStatus() {
-    let status = await this.pigModel.findOne();
+  async getStatus(): Promise<string> {
+    const status = await this.pigModel.findOne();
     if (!status) {
-      console.log(status);
+      const newStatus = new this.pigModel({ currentStatus: 'start' });
 
-      status = await this.pigModel.create({
-        status: 'default',
-        musicPlaying: false,
-      });
+      await newStatus.save();
+      return 'start';
     }
-    return status;
+
+    return status.currentStatus;
   }
 
-  async create(createAnimalDto: Partial<PigStatus>): Promise<PigStatus> {
-    const createdAnimal = new this.pigModel(createAnimalDto);
-    return createdAnimal.save();
+  async updateStatus(newStatus: string): Promise<string> {
+    const status = await this.pigModel.findOne();
+    if (!status) {
+      const newStatusObj = new this.pigModel({
+        currentStatus: newStatus,
+      });
+
+      await newStatusObj.save();
+      return newStatus;
+    }
+
+    status.currentStatus = newStatus;
+
+    await status.save();
+    return newStatus;
   }
 
-  async findAll(): Promise<PigStatus[]> {
-    return this.pigModel.find().exec();
+  async resetStatus(): Promise<string> {
+    return this.updateStatus('start');
   }
-
-  async updatePigStatus(newStatus: string) {
-    return this.pigModel.findOneAndUpdate(
-      {},
-      { status: newStatus },
-      { new: true, upsert: true },
-    );
-  }
-
-  // Toggle music
-  //   async toggleMusic() {
-  //     const currentStatus = await this.getPigStatus();
-  //     return this.pigModel.findOneAndUpdate(
-  //       {},
-  //       { musicPlaying: !currentStatus.musicPlaying },
-  //       { new: true, upsert: true },
-  //     );
-  //   }
 }

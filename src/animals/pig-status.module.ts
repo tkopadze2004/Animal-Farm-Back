@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PigStatusSchema } from './schemas/pig-status';
-import { PigController } from './controllers/pig-status.controler';
+import { PigSchema } from './schemas/pig-status';
 import { PigService } from './services/pig-status.service';
+import { PigController } from './controllers/pig-status.controler';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       {
         name: 'Pig',
-        schema: PigStatusSchema,
+        schema: PigSchema,
       },
     ]),
   ],
@@ -17,4 +17,4 @@ import { PigService } from './services/pig-status.service';
   providers: [PigService],
   exports: [PigService],
 })
-export class PigStatusModule {}
+export class pigModel {}

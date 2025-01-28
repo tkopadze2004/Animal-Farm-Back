@@ -1,23 +1,22 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { PigService } from '../services/pig-status.service';
-import { PigStatus } from '../schemas/pig-status';
 
 @Controller('pig')
 export class PigController {
-  constructor(private readonly pigService: PigService) {}
+  constructor(private readonly pigStatusService: PigService) {}
 
   @Get()
-  async findAll() {
-    return this.pigService.findAll();
+  async getStatus() {
+    return { currentStatus: await this.pigStatusService.getStatus() };
   }
 
-  @Post()
-  async create(@Body() createAnimalDto: PigStatus) {
-    return this.pigService.create(createAnimalDto);
+  @Post('update')
+  async updateStatus(@Body('status') status: string) {
+    return { currentStatus: await this.pigStatusService.updateStatus(status) };
   }
 
-  @Post('status')
-  async updatePigStatus(@Body('status') status: string) {
-    return this.pigService.updatePigStatus(status);
+  @Post('reset')
+  async resetStatus() {
+    return { currentStatus: await this.pigStatusService.resetStatus() };
   }
 }

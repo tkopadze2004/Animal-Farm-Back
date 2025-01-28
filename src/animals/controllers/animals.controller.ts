@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put } from '@nestjs/common';
 import { AnimalsService } from '../services/animals.service';
 import { Animal } from '../schemas/animal.schema';
 
@@ -16,7 +16,7 @@ export class AnimalsController {
     return this.animalsService.findAll();
   }
 
-  @Post(':id/feed')
+  @Put(':id/feed')
   async feedAnimal(@Param('id') id: string) {
     return this.animalsService.feedAnimal(id);
   }

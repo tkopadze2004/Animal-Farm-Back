@@ -1,11 +1,16 @@
 import { model, Schema, Document } from 'mongoose';
 
-export interface PigStatus extends Document {
-  status: string;
+export interface Pig extends Document {
+  currentStatus: string; // 'start', 'happy', 'putin'
 }
 
-export const PigStatusSchema = new Schema({
-  status: { type: String, required: true, default: 'initial' },
-});
+export const PigSchema = new Schema(
+  {
+    currentStatus: { type: String, required: true, default: 'start' },
+  },
+  {
+    versionKey: false,
+  },
+);
 
-export const PigModel = model<PigStatus>('PigStatus', PigStatusSchema);
+export const pigModel = model<Pig>('pig', PigSchema);
