@@ -1,11 +1,11 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { PigService } from '../services/pig-status.service';
 
-@Controller('pig')
+@Controller('bidzina')
 export class PigController {
   constructor(private readonly pigStatusService: PigService) {}
 
-  @Get()
+  @Get('status')
   async getStatus() {
     return { currentStatus: await this.pigStatusService.getStatus() };
   }
