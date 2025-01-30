@@ -25,18 +25,12 @@ export class PigService {
       const newStatusObj = new this.pigModel({
         currentStatus: newStatus,
       });
-
       await newStatusObj.save();
       return newStatus;
     }
 
     status.currentStatus = newStatus;
-
     await status.save();
     return newStatus;
-  }
-
-  async resetStatus(): Promise<string> {
-    return this.updateStatus('start');
   }
 }
