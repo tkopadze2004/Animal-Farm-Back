@@ -9,6 +9,7 @@ export class PigController {
   async getStatus() {
     return { currentStatus: await this.pigStatusService.getStatus() };
   }
+
   @Post('update')
   async updateStatus(@Body('status') status: string) {
     const updatedStatus = await this.pigStatusService.updateStatus(status);

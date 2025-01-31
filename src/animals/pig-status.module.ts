@@ -17,4 +17,4 @@ import { PigController } from './controllers/pig-status.controler';
   providers: [PigService],
   exports: [PigService],
 })
-export class pigModel {}
+export class pigModule {}

@@ -12,9 +12,9 @@ async function bootstrap() {
       'https://animal-farm-456c4.web.app',
       'https://animal-farm-456c4.firebaseapp.com',
     ],
-    methods: 'GET,POST,PUT,DELETE', // Include all methods you're using
-    allowedHeaders: ['Content-Type', 'Accept', 'Authorization'], // Add 'Authorization' if needed
-    credentials: true, // Allow credentials (cookies or auth headers)
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: ['Content-Type', 'Accept', 'Authorization'],
+    credentials: true,
   });
 
   await app.listen(process.env.PORT ?? 3000);
