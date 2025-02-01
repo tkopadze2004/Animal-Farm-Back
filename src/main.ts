@@ -3,22 +3,19 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
 
-  // CORS configuration - allow requests from localhost and other necessary domains
+  // CORS configuration - allow requests from specific domains
   app.enableCors({
     // origin: [
-    //   'http://localhost:4200',
-    //   'https://animal-farm-456c4.web.app',
+    //   'http://localhost:4200', // Local Angular app
+    //   'https://animal-farm-456c4.web.app', // Deployed Angular app
     // ],
-    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
-
-  const PORT = process.env.PORT || 3000; // Use the port from environment or 3000 by default
-  await app.listen(PORT, '0.0.0.0'); // Listen on all interfaces
-  console.log(`Server running on port ${PORT}`);
+  await app.listen(process.env.PORT || 3000);
 }
 
 void bootstrap();
