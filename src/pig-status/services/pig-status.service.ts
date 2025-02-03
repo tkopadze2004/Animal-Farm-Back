@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Pig } from '../schemas/pig-status';
+import { Pig } from '../schemas/pig-status.schema';
 
 @Injectable()
 export class PigService {
@@ -10,26 +10,26 @@ export class PigService {
   async getStatus(): Promise<string> {
     const status = await this.pigModel.findOne();
     if (!status) {
-      const newStatus = new this.pigModel({ currentStatus: 'start' });
+      const newStatus = new this.pigModel({ pigStatus: 'start' });
 
       await newStatus.save();
       return 'start';
     }
 
-    return status.currentStatus;
+    return status.pigStatus;
   }
 
   async updateStatus(newStatus: string): Promise<string> {
     const status = await this.pigModel.findOne();
     if (!status) {
       const newStatusObj = new this.pigModel({
-        currentStatus: newStatus,
+        pigStatus: newStatus,
       });
       await newStatusObj.save();
       return newStatus;
     }
 
-    status.currentStatus = newStatus;
+    status.pigStatus = newStatus;
     await status.save();
     return newStatus;
   }

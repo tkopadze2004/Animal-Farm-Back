@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Animal } from '../schemas/animal.schema';
-import { PigService } from './pig-status.service';
 import { Timeout } from '@nestjs/schedule';
+import { PigService } from 'src/pig-status/services/pig-status.service';
 
 @Injectable()
 export class AnimalsService {
@@ -28,7 +28,7 @@ export class AnimalsService {
       throw new NotFoundException('Animal not found');
     }
 
-    animal.thanksCount += 1;
+    animal.thanksCount++;
     await animal.save();
 
     await this.pigService.updateStatus('happy');

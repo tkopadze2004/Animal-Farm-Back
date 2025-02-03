@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AnimalsModule } from './animals/animals.module';
-import { pigModule } from './animals/pig-status.module';
+import { PigModule } from './pig-status/pig-status.module';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { pigModule } from './animals/pig-status.module';
     ),
 
     AnimalsModule,
-    pigModule,
+    PigModule,
   ],
   controllers: [AppController],
   providers: [AppService],

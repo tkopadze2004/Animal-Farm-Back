@@ -3,9 +3,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AnimalsController } from '../animals/controllers/animals.controller';
 import { AnimalsService } from '../animals/services/animals.service';
 import { AnimalSchema } from './schemas/animal.schema';
-import { PigService } from './services/pig-status.service';
-import { PigSchema } from './schemas/pig-status';
-import { pigModule } from './pig-status.module';
+import { PigModule } from 'src/pig-status/pig-status.module';
+import { PigSchema } from 'src/pig-status/schemas/pig-status.schema';
+import { PigService } from 'src/pig-status/services/pig-status.service';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { pigModule } from './pig-status.module';
         schema: PigSchema,
       },
     ]),
-    pigModule,
+    PigModule,
   ],
 
   controllers: [AnimalsController],

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PigSchema } from './schemas/pig-status';
+import { PigController } from './controllers/pig-status.controller';
+import { PigSchema } from './schemas/pig-status.schema';
 import { PigService } from './services/pig-status.service';
-import { PigController } from './controllers/pig-status.controler';
 
 @Module({
   imports: [
@@ -17,4 +17,4 @@ import { PigController } from './controllers/pig-status.controler';
   providers: [PigService],
   exports: [PigService],
 })
-export class pigModule {}
+export class PigModule {}

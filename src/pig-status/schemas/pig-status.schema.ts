@@ -1,12 +1,12 @@
 import { model, Schema, Document } from 'mongoose';
 
 export interface Pig extends Document {
-  currentStatus: string; // 'start', 'happy', 'putin'
+  pigStatus: string;
 }
 
 export const PigSchema = new Schema(
   {
-    currentStatus: { type: String, required: true, default: 'start' },
+    pigStatus: { type: String, required: true, default: 'start' },
   },
   {
     versionKey: false,
