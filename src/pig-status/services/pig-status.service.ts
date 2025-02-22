@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Pig } from '../schemas/pig-status.schema';
@@ -8,29 +8,34 @@ export class PigService {
   constructor(@InjectModel('Pig') private readonly pigModel: Model<Pig>) {}
 
   async getStatus(): Promise<string> {
-    const status = await this.pigModel.findOne();
-    if (!status) {
-      const newStatus = new this.pigModel({ pigStatus: 'start' });
+    try {
+      let status = await this.pigModel.findOne();
+      
+      if (!status) {
+        status = new this.pigModel({ pigStatus: 'start' });
+        await status.save();
+      }
 
-      await newStatus.save();
-      return 'start';
+      return status.pigStatus;
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to get pig status');
     }
-
-    return status.pigStatus;
   }
 
   async updateStatus(newStatus: string): Promise<string> {
-    const status = await this.pigModel.findOne();
-    if (!status) {
-      const newStatusObj = new this.pigModel({
-        pigStatus: newStatus,
-      });
-      await newStatusObj.save();
-      return newStatus;
-    }
+    try {
+      let status = await this.pigModel.findOne();
 
-    status.pigStatus = newStatus;
-    await status.save();
-    return newStatus;
+      if (!status) {
+        status = new this.pigModel({ pigStatus: newStatus });
+      } else {
+        status.pigStatus = newStatus;
+      }
+
+      await status.save();
+      return newStatus;
+    } catch (error) {
+      throw new InternalServerErrorException('Failed to update pig status');
+    }
   }
 }

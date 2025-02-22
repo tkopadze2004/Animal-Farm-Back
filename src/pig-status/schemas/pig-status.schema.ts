@@ -1,16 +1,9 @@
-import { model, Schema, Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-export interface Pig extends Document {
+@Schema({ versionKey: false })
+export class Pig  {
+  @Prop({ required: true, default: 'start' })
   pigStatus: string;
 }
 
-export const PigSchema = new Schema(
-  {
-    pigStatus: { type: String, required: true, default: 'start' },
-  },
-  {
-    versionKey: false,
-  },
-);
-
-export const pigModel = model<Pig>('pig', PigSchema);
+export const PigSchema = SchemaFactory.createForClass(Pig);

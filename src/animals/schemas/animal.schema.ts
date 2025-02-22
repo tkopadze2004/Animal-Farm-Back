@@ -1,22 +1,18 @@
-import { model, Schema, Document } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-export interface Animal extends Document {
+@Schema({ versionKey: false })
+export class Animal {
+  @Prop({ required: true })
   name: string;
+
+  @Prop({ required: true })
   animalType: string;
+
+  @Prop({ required: true })
   foodType: string;
+
+  @Prop({ type: Number, default: 0 })
   thanksCount: number;
 }
 
-export const AnimalSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    animalType: { type: String, required: true },
-    foodType: { type: String, required: true },
-    thanksCount: { type: Number, default: 0 },
-  },
-  {
-    versionKey: false,
-  },
-);
-
-export const AnimalModel = model<Animal>('Animal', AnimalSchema);
+export const AnimalSchema = SchemaFactory.createForClass(Animal);

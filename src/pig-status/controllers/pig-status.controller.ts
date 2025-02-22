@@ -1,5 +1,6 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { PigService } from '../services/pig-status.service';
+import { UpdateStatusDto } from '../dto/update-status.dto';
 
 @Controller('bidzina')
 export class PigController {
@@ -11,8 +12,7 @@ export class PigController {
   }
 
   @Post('update')
-  async updateStatus(@Body('status') status: string) {
-    const updatedStatus = await this.pigStatusService.updateStatus(status);
-    return { pigStatus: updatedStatus };
-  }
+  async updateStatus(@Body() updateStatusDto: UpdateStatusDto) {
+    return { pigStatus: await this.pigStatusService.updateStatus(updateStatusDto.status) };
+  }  
 }
